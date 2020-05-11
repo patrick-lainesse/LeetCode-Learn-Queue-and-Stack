@@ -1,7 +1,3 @@
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.List;
-
 // used this ressource to help implement this code: https://www.javamadesoeasy.com/2015/01/queues.html
 public class MyCircularQueue {
 
@@ -23,12 +19,12 @@ public class MyCircularQueue {
     /** Insert an element into the circular queue. Return true if the operation is successful. */
     public boolean enQueue(int value) {
         if(isFull()) {
-            //throw new QueueFullException("Cannot insert " + value +", queue is full");
             return false;
         }
         ++p_tail;
         if(p_tail == size) p_tail=0;
         data[p_tail] = value;
+        if(p_head == -1) p_head=0;
         queueSize++;
         return true;
     }
@@ -36,7 +32,6 @@ public class MyCircularQueue {
     /** Delete an element from the circular queue. Return true if the operation is successful. */
     public boolean deQueue() {
         if(isEmpty()) {
-            //throw new QueueEmptyException("Queue is empty");
             return false;
         }
 
@@ -131,22 +126,19 @@ public class MyCircularQueue {
         System.out.println(circularQueue2.deQueue());  // return false
         System.out.println(circularQueue2.deQueue());  // return false
 
-
-        /*Input: ["MyCircularQueue","enQueue","Rear","Front","deQueue","Front","deQueue","Front","enQueue","enQueue","enQueue","enQueue"]
-[[3],[2],[],[],[],[],[],[],[4],[2],[2],[3]]
-        Output: [null,true,2,-1,true,-1,false,-1,true,true,true,false]
-        Expected: [null,true,2,2,true,-1,false,-1,true,true,true,false]*/
-    }
-
-    private class QueueFullException extends RuntimeException {
-        public QueueFullException(String s) {
-            super(s);
-        }
-    }
-
-    private class QueueEmptyException extends RuntimeException {
-        public QueueEmptyException(String queue_is_empty) {
-            super(queue_is_empty);
-        }
+        System.out.println("*****************************************************");
+        // test #3 (failed at first attempt)
+        MyCircularQueue circularQueue3 = new MyCircularQueue(3); // set the size to be 3
+        System.out.println(circularQueue3.enQueue(2));  // return true
+        System.out.println(circularQueue3.Rear());  // return 2
+        System.out.println(circularQueue3.Front());  // return 2
+        System.out.println(circularQueue3.deQueue());  // return true
+        System.out.println(circularQueue3.Front());  // return -1
+        System.out.println(circularQueue3.deQueue());  // return false
+        System.out.println(circularQueue3.Front());  // return -1
+        System.out.println(circularQueue3.enQueue(4));  // return true
+        System.out.println(circularQueue3.enQueue(2));  // return true
+        System.out.println(circularQueue3.enQueue(2));  // return true
+        System.out.println(circularQueue3.enQueue(3));  // return false
     }
 }
